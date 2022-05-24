@@ -1,7 +1,7 @@
-<?php namespace Silber\Sanitizer\Laravel;
+<?php namespace Danijwilliams\Sanitizer\Laravel;
 
-use Silber\Sanitizer\Sanitizer;
-use Silber\Sanitizer\FormSanitizer;
+use Danijwilliams\Sanitizer\Sanitizer;
+use Danijwilliams\Sanitizer\FormSanitizer;
 use Illuminate\Support\ServiceProvider;
 
 class SanitizerServiceProvider extends ServiceProvider {
@@ -32,8 +32,8 @@ class SanitizerServiceProvider extends ServiceProvider {
 	{
 		return [
 			'sanitizer',
-			'Silber\Sanitizer\Sanitizer',
-			'Silber\Sanitizer\FormSanitizer',
+			'Danijwilliams\Sanitizer\Sanitizer',
+			'Danijwilliams\Sanitizer\FormSanitizer',
 		];
 	}
 
