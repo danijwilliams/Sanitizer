@@ -1,4 +1,4 @@
-<?php namespace Silber\Sanitizer;
+<?php namespace Danijwilliams\Sanitizer;
 
 use Closure;
 use Exception;
