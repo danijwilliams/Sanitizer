@@ -1,4 +1,4 @@
-<?php namespace Silber\Sanitizer;
+<?php namespace Danijwilliams\Sanitizer;
 
 use ArrayAccess;
 
@@ -9,7 +9,7 @@ class FormSanitizer {
 	 *
 	 * @var string
 	 */
-	protected $sanitizer = 'Silber\Sanitizer\Sanitizer';
+	protected $sanitizer = 'Danijwilliams\Sanitizer\Sanitizer';
 
 	/**
 	 * The sanitization rules.
@@ -50,7 +50,7 @@ class FormSanitizer {
 	/**
 	 * Create a new sanitizer instance.
 	 *
-	 * @return Silber\Sanitizer\Sanitizer
+	 * @return Danijwilliams\Sanitizer\Sanitizer
 	 */
 	protected function newSanitizer()
 	{
