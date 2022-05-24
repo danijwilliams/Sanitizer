@@ -1,4 +1,4 @@
-<?php namespace Silber\Sanitizer\Laravel;
+<?php namespace Danijwilliams\Sanitizer\Laravel;
 
 use Illuminate\Support\Facades\Facade;
 
@@ -6,7 +6,7 @@ class SanitizerFacade extends Facade {
 
 	protected static function getFacadeAccessor()
 	{
-		return 'Silber\Sanitizer\Sanitizer';
+		return 'Danijwilliams\Sanitizer\Sanitizer';
 	}
 
 }
