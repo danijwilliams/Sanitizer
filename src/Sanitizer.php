@@ -1,5 +1,6 @@
 <?php namespace Silber\Sanitizer;
 
+use Closure;
 use Exception;
 use ArrayAccess;
 
@@ -158,6 +159,8 @@ class Sanitizer {
 
 		foreach ($ruleset as $rule)
 		{
+			if ($rule == 'nullable') continue;
+
 			$this->runRule($data, $key, $rule);
 		}
 	}
@@ -172,7 +175,7 @@ class Sanitizer {
 	 */
 	protected function runRule(array &$data, $key, $rule)
 	{
-		list($rule, $parameters) = $this->parseStringRule($rule);
+		list($rule, $parameters) = $this->parseRule($rule);
 
 		array_unshift($parameters, $data[$key]);
 
@@ -184,11 +187,13 @@ class Sanitizer {
 	/**
 	 * Parse a string based rule.
 	 *
-	 * @param  string  $rule
+	 * @param  mixed  $rule
 	 * @return array
 	 */
-	protected function parseStringRule($rule)
+	protected function parseRule($rule)
 	{
+		if ( ! is_string($rule)) return [$rule, []];
+
 		$parameters = [];
 
 		if (strpos($rule, ':') !== false)
@@ -209,6 +214,8 @@ class Sanitizer {
 	 */
 	protected function getSanitizer($key)
 	{
+		if ($key instanceof Closure) return $key;
+
 		if (isset($this->extensions[$key]))
 		{
 			return $this->extensions[$key];
@@ -247,7 +254,7 @@ class Sanitizer {
 	 * @param  mixed  $value
 	 * @return string
 	 */
-	protected function alphaSanitizer($value)
+	public function alphaSanitizer($value)
 	{
 		$value = $this->stringSanitizer($value);
 
@@ -260,7 +267,7 @@ class Sanitizer {
 	 * @param  mixed   $value
 	 * @return string
 	 */
-	protected function alphaDashSanitizer($value)
+	public function alphaDashSanitizer($value)
 	{
 		$value = $this->stringSanitizer($value);
 
@@ -273,7 +280,7 @@ class Sanitizer {
 	 * @param  mixed   $value
 	 * @return string
 	 */
-	protected function alphaNumSanitizer($value)
+	public function alphaNumSanitizer($value)
 	{
 		$value = $this->stringSanitizer($value);
 
@@ -286,7 +293,7 @@ class Sanitizer {
 	 * @param  mixed  $value
 	 * @return array
 	 */
-	protected function arraySanitizer($value)
+	public function arraySanitizer($value)
 	{
 		return (array) $value;
 	}
@@ -297,20 +304,9 @@ class Sanitizer {
 	 * @param  mixed  $value
 	 * @return boolean
 	 */
-	protected function booleanSanitizer($value)
+	public function booleanSanitizer($value)
 	{
 		return (bool) $value;
-	}
-
-	/**
-	 * Convert a value to a number.
-	 *
-	 * @param  mixed  $value
-	 * @return int
-	 */
-	protected function numberSanitizer($value)
-	{
-		return (int) $this->numericSanitizer($value);
 	}
 
 	/**
@@ -319,11 +315,35 @@ class Sanitizer {
 	 * @param  mixed  $value
 	 * @return string
 	 */
-	protected function numericSanitizer($value)
+	public function numericSanitizer($value)
 	{
 		$value = $this->stringSanitizer($value);
 
 		return preg_replace('~[^\d]~', '', $value);
+	}
+
+	/**
+	 * Convert a value to a number.
+	 *
+	 * @param  mixed  $value
+	 * @return int
+	 */
+	public function numberSanitizer($value)
+	{
+		return (int) $this->numericSanitizer($value);
+	}
+
+	/**
+	 * Convert a value to a float.
+	 *
+	 * @param  mixed  $value
+	 * @return float
+	 */
+	public function floatSanitizer($value)
+	{
+		$value = $this->stringSanitizer($value);
+
+		return (float) preg_replace('~[^\d.]~', '', $value);
 	}
 
 	/**
@@ -332,7 +352,7 @@ class Sanitizer {
 	 * @param  mixed  $value
 	 * @return string
 	 */
-	protected function stringSanitizer($value)
+	public function stringSanitizer($value)
 	{
 		try
 		{
@@ -352,7 +372,7 @@ class Sanitizer {
 	 * @param  mixed  $value
 	 * @return string
 	 */
-	protected function trimSanitizer($value)
+	public function trimSanitizer($value)
 	{
 		if ( ! is_string($value)) return $value;
 

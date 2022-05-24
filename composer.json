@@ -1,10 +1,10 @@
 {
-    "name": "silber/sanitizer",
+    "name": "danijwilliams/sanitizer",
     "description": "Sanitize form/JSON data",
     "authors": [
         {
-            "name": "Joseph Silber",
-            "email": "contact@josephsilber.com"
+            "name": "Daniel Williams",
+            "email": "danieljwilliams509@gmail.com"
         }
     ],
     "require": {
